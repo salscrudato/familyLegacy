@@ -1,0 +1,29 @@
+<div class="container pt-5 text-center">
+<div align="center">
+<div class="card mb-3" style="width:20rem">
+  <div class="card-body">
+    <form [formGroup]="formTemplate" (submit)="onSubmit(formTemplate.value)">
+      <div class="text-center">
+        <img [src]="imgSrc" class="img-fluid" (click)="fileUploader.click()">
+      </div>
+      <div class="form-group">
+        <div class="custom-file mt-3">
+          <input class="custom-file-input" id="customFile" type="file" accept="image/*" #fileUploader formControlName="imageUrl"
+          (change)="showPreview($event)">
+          <label class="custom-file-label" id="customFileLabel" for="customFile">{{selectedImage}}</label>
+        </div>
+      </div>
+      <div class="form-group mt-3 w-100">
+        <input class="form-control" formControlName="caption" placeholder="Caption">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <button type="submit" class="btn btn-success btn-block float-right">Upload</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>
+</div>
+</div>
