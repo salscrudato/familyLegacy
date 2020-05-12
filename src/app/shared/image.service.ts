@@ -12,17 +12,15 @@ export class ImageService {
   imageDetailList: AngularFireList<any>;
   commentImage: string;
 
+  //New Service Fields
+  lastImageKey: any;
+
   constructor(private firebase: AngularFireDatabase, private firestore: AngularFirestore) { }
 
   //Call this to populate imageDetailList
   getImageDetailList() {
     this.imageDetailList = this.firebase.list('imageDetails');
   }
-
-  // getLatestImages() {
-  //   this.images = this.firebase.list('imageDetails', ref =>
-  //     ref.limitToLast(10));
-  // }
 
   uploadImage(image){
     this.firestore.collection('images').add(image);
@@ -42,7 +40,20 @@ export class ImageService {
   }
 
   getImages(){
-    return this.firestore.collection('images').snapshotChanges();
+    return this.firestore.collection('images', ref => ref.orderBy('uploadedTime', 'desc')).snapshotChanges();
+  }
+
+  newGetImages(){
+    return this.firestore.collection('images', ref => ref.orderBy('uploadedTime', 'desc').limit(10)).snapshotChanges();
+  }
+
+  getNextImages(){
+    console.log('Last Image Ref: ' + this.lastImageKey);
+
+    return this.firestore.collection("images", ref =>
+          ref.orderBy("uploadedTime", "desc")
+          .startAfter(this.lastImageKey)
+          .limit(10)).snapshotChanges();
   }
 
   getImage(key){

@@ -2,7 +2,7 @@
   <div class="row text-center mt-2 mb-0">
   <h1>Shared Family Album For Scrudato, Miceli, Provenzano and Others!</h1>
   </div>
-  <div class="row">
+  <div class="row mb-5">
     <div *ngFor="let image of imageList" class="card promoting-card col-sm-4 pl-0 pr-0 mb-3" (click)="addComment(image.id)">
       <!-- Card content -->
       <div class="card-body d-flex flex-row p-2">
@@ -29,5 +29,14 @@
       </div>
     </div>
     <!-- Card -->
+
+
+    <!-- Get More -->
+    <div class="card promoting-card col-sm-4 pl-0 pr-0 mb-3" (click)="getNextImages()">
+
+      <button type="button" class="btn btn-primary btn-lg">Click To Load More</button>
+
+    </div>
+
   </div>
 </div>

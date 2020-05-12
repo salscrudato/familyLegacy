@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class MainComponent implements OnInit {
   imageList = [];
+  tempImageList = [];
 
   constructor(
     private service: ImageService,
@@ -17,15 +18,50 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
 
-    this.reloadImages();
+    //this.reloadImages();
+    this.reloadImages2();
+    }
+
+    reloadImages2(){
+      this.service.newGetImages().subscribe(data => {
+        console.log('First Call');
+        console.log(data[data.length-1].payload.doc.id);
+        data.forEach(a => {
+          let item:any = a.payload.doc.data();
+          item.id = a.payload.doc.id;
+          this.imageList.push(item);
+        });
+         var lastImageRef = data[data.length-1].payload.doc;
+        this.service.lastImageKey = lastImageRef;
+      });
+    }
+
+    getNextImages(){
+      this.service.getNextImages().subscribe(data => {
+        console.log('Second Call');
+        console.log(data.length);
+
+        if(data.length > 1){
+
+        data.forEach(a => {
+          let item:any = a.payload.doc.data();
+          item.id = a.payload.doc.id;
+          this.imageList.push(item);
+        });
+        var lastImageRef = data[data.length-1].payload.doc;
+       this.service.lastImageKey = lastImageRef;
+
+       }
+
+      })
 
     }
+
 
     reloadImages(){
       this.imageList = [];
       this.service.getImages().subscribe(data => {
         data.forEach(a => {
-          console.log('Reloading Images');
           let item:any = a.payload.doc.data();
           item.id = a.payload.doc.id;
           this.imageList.push(item);
