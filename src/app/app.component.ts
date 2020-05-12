@@ -10,9 +10,11 @@ import { AngularFireStorage } from 'angularfire2/storage';
 export class AppComponent {
 
   items = [
-      {icon: 'photo_library', label: 'Album', routerLink: 'main'},
+      {icon: 'home', label: 'Home', routerLink: 'main'},
+      {icon: 'photo_library', label: 'Collections', routerLink: 'collections'},
       {icon: 'cloud_upload', label: 'Upload', routerLink: 'upload'},
-      {icon: 'menu_book', label: 'Heritage', routerLink: 'heritage'}
+      {icon: 'menu_book', label: 'Heritage', routerLink: 'heritage'},
+      {icon: 'fastfood', label: 'Recipes', routerLink: 'recipes'}
     ];
 
 }

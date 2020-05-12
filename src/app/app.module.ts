@@ -27,6 +27,8 @@ import { CommentsComponent } from './comments/comments.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HeritageComponent } from './heritage/heritage.component';
+import { RecipesComponent } from './recipes/recipes.component';
+import { CollectionsComponent } from './collections/collections.component';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { HeritageComponent } from './heritage/heritage.component';
     MainComponent,
     UploadComponent,
     CommentsComponent,
-    HeritageComponent
+    HeritageComponent,
+    RecipesComponent,
+    CollectionsComponent
   ],
   imports: [
     BrowserModule,

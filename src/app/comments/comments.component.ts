@@ -31,13 +31,10 @@ export class CommentsComponent implements OnInit {
   }
 
   submitComment(comment){
-
-    
-
-    // this.service.addComment(this.image.id, comment, () => {
-    //   this.commentForm.reset();
-    //   this.loadImage();
-    // });
+    this.service.addComment(this.image.id, comment, () => {
+      this.commentForm.reset();
+      this.loadImage();
+    });
 
   }
 
