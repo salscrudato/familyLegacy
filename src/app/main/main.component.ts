@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+
   imageList = [];
-  tempImageList = [];
 
   constructor(
     private service: ImageService,
@@ -17,15 +17,11 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    //this.reloadImages();
-    this.reloadImages2();
+    this.loadImages();
     }
 
-    reloadImages2(){
-      this.service.newGetImages().subscribe(data => {
-        console.log('First Call');
-        console.log(data[data.length-1].payload.doc.id);
+    loadImages(){
+      this.service.getImages().subscribe(data => {
         data.forEach(a => {
           let item:any = a.payload.doc.data();
           item.id = a.payload.doc.id;
@@ -40,9 +36,7 @@ export class MainComponent implements OnInit {
       this.service.getNextImages().subscribe(data => {
         console.log('Second Call');
         console.log(data.length);
-
         if(data.length > 1){
-
         data.forEach(a => {
           let item:any = a.payload.doc.data();
           item.id = a.payload.doc.id;
@@ -50,41 +44,13 @@ export class MainComponent implements OnInit {
         });
         var lastImageRef = data[data.length-1].payload.doc;
        this.service.lastImageKey = lastImageRef;
-
        }
-
       })
-
     }
-
-
-    reloadImages(){
-      this.imageList = [];
-      this.service.getImages().subscribe(data => {
-        data.forEach(a => {
-          let item:any = a.payload.doc.data();
-          item.id = a.payload.doc.id;
-          this.imageList.push(item);
-        });
-      }
-    );
-  }
 
   addComment(imageKey){
     this.service.setSelectedImage(imageKey);
     this.router.navigate(['comments']);
   }
-
-
-    // this.service.getImageDetailList();
-    // this.service.imageDetailList.snapshotChanges().subscribe(
-    //   list => {
-    //     this.imageList = list.map(item => {
-    //       console.log(item.payload.key);
-    //       return item.payload.val();
-    //     });
-    //   }
-    // );
-
 
 }

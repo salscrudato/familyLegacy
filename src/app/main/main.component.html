@@ -27,6 +27,19 @@
           <div class="mask rgba-white-slight"></div>
         </a>
       </div>
+      <div class="card-body d-flex flex-row p-2">
+        <div class="col w-100" *ngIf="(image.comments.length - 1) > 0" align="left">
+          <div class="row">
+            Click to view {{image.comments.length - 1}} comment(s)
+          </div>
+          <div class="row">
+            Last comment: "{{image.comments[image.comments.length-1].name}} - {{image.comments[image.comments.length-1].comment}}"
+          </div>
+        </div>
+        <div class="col w-100" *ngIf="(image.comments.length - 1) < 1" align="left">
+        Click to add a comment!
+        </div>
+      </div>
     </div>
     <!-- Card -->
 

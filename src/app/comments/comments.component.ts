@@ -31,25 +31,24 @@ export class CommentsComponent implements OnInit {
   }
 
   submitComment(comment){
-    this.service.addComment(this.image.id, comment, () => {
-      this.commentForm.reset();
-      this.loadImage();
-    });
+
+    
+
+    // this.service.addComment(this.image.id, comment, () => {
+    //   this.commentForm.reset();
+    //   this.loadImage();
+    // });
 
   }
 
   loadImage(){
-
     const imgKey = this.service.getSelectedImage();
     this.service.getImage(imgKey).subscribe(data =>{
       this.imageRef = data;
       console.log('ID: ' + data.id);
       this.image = data.data();
       this.image.id = data.id;
-      console.log('Comments: ' + this.image.comments);
-
     });
-
   }
 
 }

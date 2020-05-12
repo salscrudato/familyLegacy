@@ -39,12 +39,15 @@ export class ImageService {
 
   }
 
-  getImages(){
-    return this.firestore.collection('images', ref => ref.orderBy('uploadedTime', 'desc')).snapshotChanges();
-  }
+  // getImages(){
+  //   return this.firestore.collection('images', ref => ref.orderBy('uploadedTime', 'desc')).snapshotChanges();
+  // }
 
-  newGetImages(){
-    return this.firestore.collection('images', ref => ref.orderBy('uploadedTime', 'desc').limit(10)).snapshotChanges();
+  getImages(){
+    return this.firestore.collection('images', ref =>
+      ref.orderBy('uploadedTime', 'desc')
+      .limit(10))
+      .snapshotChanges();
   }
 
   getNextImages(){
