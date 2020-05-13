@@ -23,24 +23,26 @@ export class CollectionsComponent implements OnInit {
       data.forEach(element => {
         this.collections.push(element.payload.doc.data());
       });
-      console.log(this.collections);
     });
 
 
   }
 
   setCollection(col){
-    this.images = [];
     this.selectedCollection = col.collectionName;
     //Move this to separate function and unsubscribe
     this.service.getImagesByCollection(col).subscribe(data => {
-      data.forEach(element => {
-        let tmpItem:any = element.payload.doc.data();
-        tmpItem.id = element.payload.doc.id;
-        this.images.push(tmpItem);
-      });
+      this.updateImageList(data);
     });
+  }
 
+  updateImageList(data){
+    this.images = [];
+    data.forEach(element => {
+      let tmpItem:any = element.payload.doc.data();
+      tmpItem.id = element.payload.doc.id;
+      this.images.push(tmpItem);
+    });
   }
 
   addComment(imageKey){

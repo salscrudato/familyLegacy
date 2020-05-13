@@ -1,13 +1,19 @@
-<div class="container pt-5 text-center">
+<div class="container pt-5 pl-0 pr-0 text-center">
 <div align="center">
 <div class="card mb-3" style="width:20rem">
-  <div class="card-body">
+  <div class="card-body pl-1 pr-1">
     <form [formGroup]="formTemplate" (submit)="onSubmit(formTemplate.value)">
       <div class="text-center">
         <img [src]="imgSrc" class="img-fluid" (click)="fileUploader.click()">
       </div>
+      <div class="row w-100 ml-0 mr-0 mt-2 p-0" *ngIf="collectionList.length > 0">
+        <h3 class="mb-1">
+          <small class="text-muted mr-2">Collections:</small>
+          <span class="badge badge-pill badge-primary mr-1" *ngFor="let collection of collectionList">{{collection}}</span>
+        </h3>
+      </div>
       <div class="form-group">
-        <div class="custom-file mt-3">
+        <div class="custom-file mt-3 d-none">
           <input class="custom-file-input" id="customFile" type="file" accept="image/*" #fileUploader formControlName="imageUrl"
           (change)="showPreview($event)">
           <label class="custom-file-label" id="customFileLabel" for="customFile">{{selectedImage}}</label>
@@ -16,10 +22,11 @@
       <div class="form-group mt-3 w-100">
         <input class="form-control" formControlName="caption" placeholder="Caption">
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
+      <div class="form-row w-100 mb-3">
+          <button type="button" class="btn btn-primary btn-block float-right" (click)="open(content)">Add to Collection</button>
+      </div>
+      <div class="form-row w-100">
           <button type="submit" class="btn btn-success btn-block float-right">Upload</button>
-        </div>
       </div>
     </form>
   </div>
@@ -27,3 +34,29 @@
 <ngx-spinner></ngx-spinner>
 </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title" id="modal-basic-title">Associate to a Collection</h1>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      Close
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex flex-row p-0">
+      <div class="col w-50 pl-0" align="left">
+  <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{tempCollection}}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" (click)="collectionSelected(collection.collectionName)" *ngFor="let collection of collections">{{collection.collectionName}}</a>
+  </div>
+  </div>
+  </div>
+  <div class="col w-50 pr-0" align="right">
+  <button type="button" class="btn btn-success btn-sm" (click)="addCollection(); modal.dismiss('Added Collection')">Add to Collection</button>
+</div>
+</div>
+</div>
+</ng-template>
