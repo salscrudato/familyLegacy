@@ -15,7 +15,20 @@ export class ImageService {
   //New Service Fields
   lastImageKey: any;
 
+  latestImageList = [];
+
   constructor(private firebase: AngularFireDatabase, private firestore: AngularFirestore) { }
+
+  getCollections(){
+    return this.firestore.collection('collections', ref =>
+      ref.orderBy('collectionName'))
+      .snapshotChanges();
+  }
+
+  getImagesByCollection(collection){
+    return this.firestore.collection('images', ref =>
+    ref.where("collections", "array-contains", collection.collectionName)).snapshotChanges();
+  }
 
   //Call this to populate imageDetailList
   getImageDetailList() {
@@ -35,6 +48,34 @@ export class ImageService {
       comments: commArr
       });
       onComplete();
+    });
+
+  }
+
+  addCollection(imageId, collection, onComplete){
+    var colArray = [];
+    var collectionExists = false;
+    this.firestore.collection('images').doc(imageId).get().subscribe(data => {
+      if(data.data().collections==null){
+        colArray[0] = collection;
+      } else {
+        colArray = data.data().collections;
+        colArray.forEach(a => {
+          if(a == collection){
+            collectionExists = true;
+          }
+        });
+        if (collectionExists==false){
+          colArray.push(collection);
+        }
+      }
+
+      if(collectionExists==false){
+        this.firestore.collection('images').doc(imageId).update({
+          collections: colArray
+        });
+      }
+      onComplete(colArray);
     });
 
   }
@@ -74,8 +115,15 @@ export class ImageService {
 
   insertImageDetails(imageDetails) {
     this.imageDetailList.push(imageDetails);
-    console.log('In Service, printing AngularFireList from insertImageDetails.');
-    console.log(this.imageDetailList);
+  }
+
+  setLatestImageList(img){
+    this.latestImageList = img;
+    console.log(this.latestImageList);
+  }
+
+  getLatestImageList(){
+     return this.latestImageList;
   }
 
 }

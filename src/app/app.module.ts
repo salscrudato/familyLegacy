@@ -29,6 +29,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HeritageComponent } from './heritage/heritage.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { CollectionsComponent } from './collections/collections.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { CollectionsComponent } from './collections/collections.component';
     NgxSpinnerModule,
     AngularFirestoreModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
