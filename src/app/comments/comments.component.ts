@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { finalize } from "rxjs/operators";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-comments',
@@ -22,7 +23,8 @@ export class CommentsComponent implements OnInit {
   imageRef:any;
   commentArr = [];
 
-  constructor(private service: ImageService) { }
+  constructor(private service: ImageService,
+              private _location: Location) { }
 
   ngOnInit(): void{
 
@@ -47,6 +49,10 @@ export class CommentsComponent implements OnInit {
       this.image = data.data();
       this.image.id = data.id;
     });
+  }
+
+  goBack(){
+    this._location.back();
   }
 
 }
