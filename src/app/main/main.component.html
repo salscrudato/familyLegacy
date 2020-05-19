@@ -1,6 +1,13 @@
-<div class="container overflow-hidden mb-5">
-  <div class="row text-center mt-2 mb-0">
-  <h1>Shared Family Album For Scrudato, Miceli, Provenzano and Others!</h1>
+<div class="container overflow-hidden mb-5 pb-5">
+  <div class="row text-center mt-4 mb-4 mr-1 ml-1">
+    <div class="card promoting-card border-0">
+    <div class="view overlay">
+      <img class="card-img-top rounded-4" src="/assets/logo-via-logohub.png">
+      <a href="#!">
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    </div>
   </div>
   <div class="row mb-5">
     <div *ngFor="let image of imageList" class="card promoting-card col-sm-4 pl-0 pr-0 mb-4">
@@ -32,7 +39,8 @@
       </div>
       <!-- Card image -->
       <div class="view overlay" (click)="addComment(image.id)">
-        <img class="card-img-top rounded-0" src={{image.imageUrl}} alt="Card image cap">
+        <!-- <img class="card-img-top rounded-0" src={{image.imageUrl}} alt="Card image cap"> -->
+        <img class="card-img-top rounded-4" [defaultImage]="defImage" [lazyLoad]="image.imageUrl" alt="Loading Image...">
         <a href="#!">
           <div class="mask rgba-white-slight"></div>
         </a>

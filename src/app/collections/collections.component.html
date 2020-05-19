@@ -34,7 +34,7 @@
     </div>
     <!-- Card image -->
     <div class="view overlay" (click)="addComment(image.id)">
-      <img class="card-img-top rounded-0" src={{image.imageUrl}} alt="Card image cap">
+      <img class="card-img-top rounded-0" [defaultImage]="defImage" [lazyLoad]="image.imageUrl" alt="Loading Image...">
       <a href="#!">
         <div class="mask rgba-white-slight"></div>
       </a>

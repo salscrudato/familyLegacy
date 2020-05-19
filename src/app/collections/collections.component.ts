@@ -12,6 +12,7 @@ export class CollectionsComponent implements OnInit {
   collections = [];
   images = [];
   selectedCollection = 'Select a Collection';
+  defImage = "/assets/loading.gif"
 
   constructor(private service:ImageService,
   private router:Router) { }

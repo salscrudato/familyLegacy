@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CollectionsComponent } from './collections/collections.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AngularFirestoreModule,
     MatFormFieldModule,
     MatInputModule,
-    NgbModule
+    NgbModule,
+    LazyLoadImageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

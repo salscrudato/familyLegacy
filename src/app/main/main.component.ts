@@ -14,6 +14,7 @@ export class MainComponent implements OnInit {
   tempCollection = 'Select a Collection';
   tempImageSelected: any;
   collections = [];
+  defImage = "/assets/loading.gif"
 
   constructor(
     private service: ImageService,
@@ -33,6 +34,7 @@ export class MainComponent implements OnInit {
         this.collections.push(element.payload.doc.data());
       });
     });
+
     }
 
     collectionSelected(collection){
