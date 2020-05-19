@@ -14,7 +14,7 @@ import { finalize } from "rxjs/operators";
 export class CommentsComponent implements OnInit {
 
   commentForm = new FormGroup({
-    name: new FormControl('', Validators.required),
+    name: new FormControl(''),
     comment: new FormControl('', Validators.required)
   });
 
@@ -31,18 +31,19 @@ export class CommentsComponent implements OnInit {
   }
 
   submitComment(comment){
+    if(comment.name==''){
+      comment.name = 'Anonymous';
+    }
     this.service.addComment(this.image.id, comment, () => {
       this.commentForm.reset();
       this.loadImage();
     });
-
   }
 
   loadImage(){
     const imgKey = this.service.getSelectedImage();
     this.service.getImage(imgKey).subscribe(data =>{
       this.imageRef = data;
-      console.log('ID: ' + data.id);
       this.image = data.data();
       this.image.id = data.id;
     });

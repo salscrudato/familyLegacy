@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from 'src/app/shared/image.service';
 import { Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-main',
@@ -93,6 +93,31 @@ export class MainComponent implements OnInit {
   addComment(imageKey){
     this.service.setSelectedImage(imageKey);
     this.router.navigate(['comments']);
+  }
+
+  addPerson(modal, imageSelected) {
+    this.tempImageSelected = imageSelected;
+    this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+
+    }, (reason) => {
+
+    });
+  }
+
+  tagPerson(input){
+    var name = input.value;
+    if(name.length > 1){
+      name = this.standardizeName(name);
+      this.service.addPerson(this.tempImageSelected.id, name, (newPeople) => {
+        this.tempImageSelected.people = newPeople;
+        this.tempImageSelected = null;
+      });
+    }
+  }
+
+  standardizeName(name){
+    return name.toLowerCase().split(' ')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
   }
 
 }

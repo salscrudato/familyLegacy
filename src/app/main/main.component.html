@@ -1,33 +1,33 @@
 <div class="container overflow-hidden mb-5 pb-5">
   <div class="row text-center mt-4 mb-4 mr-1 ml-1">
     <div class="card promoting-card border-0">
-    <div class="view overlay">
-      <img class="card-img-top rounded-4" src="/assets/logo-via-logohub.png">
-      <a href="#!">
-        <div class="mask rgba-white-slight"></div>
-      </a>
-    </div>
+      <div class="view overlay">
+        <img class="card-img-top rounded-4" src="/assets/logo-via-logohub.png">
+        <a href="#!">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
     </div>
   </div>
   <div class="row mb-5">
     <div *ngFor="let image of imageList" class="card promoting-card col-sm-4 pl-0 pr-0 mb-4">
       <!-- Card content -->
       <div class="card-body d-flex flex-row pl-1 pr-1 pt-2 pb-0">
-        <div class="col w-100">
-        <!-- Content -->
-        <div class="row w-100 m-0 p-0">
-          <!-- Title -->
-          <div class="col w-75 pl-0" align="left">
-            <h4 class="card-title font-weight-bold m-0">{{image.caption}}</h4>
-          </div>
-          <div class="col w-25 pr-0" (click)="open(content, image)">
-            <div class="d-flex flex-row-reverse">
-            <h4 class="mb-1">Collection</h4>
-            <span class="material-icons">
-              library_add
-            </span>
+        <div class="col w-100 pl-1 pr-1">
+          <!-- Content -->
+          <div class="row w-100 m-0 p-0">
+            <!-- Caption and Add to Collection Row -->
+            <div class="col w-75 pl-0 pr-0" align="left">
+              <h4 class="card-title m-0">{{image.caption}}</h4>
             </div>
-          </div>
+            <div class="col w-25 pr-0 pl-0" (click)="open(content, image)">
+              <div class="d-flex flex-row-reverse">
+                <h4 class="mb-1">Collection</h4>
+                <span class="material-icons">
+                  library_add
+                </span>
+              </div>
+            </div>
           </div>
           <div class="row w-100 m-0 p-0" *ngIf="image.collections">
             <h3 class="mb-1">
@@ -35,7 +35,17 @@
               <span class="badge badge-pill badge-primary mr-1" *ngFor="let collection of image.collections">{{collection}}</span>
             </h3>
           </div>
-            </div>
+          <!-- New People Section -->
+          <div class="row w-100 m-0 p-0">
+              <h3 class="mb-1">
+              <small class="text-muted mr-2">People:</small>
+              <span class="badge badge-pill badge-info mr-1" *ngFor="let person of image.people">{{person}}</span>
+              <span class="badge badge-pill badge-success mr-1" (click)="addPerson(people, image)">Click to Add</span>
+              </h3>
+          </div>
+
+
+        </div>
       </div>
       <!-- Card image -->
       <div class="view overlay" (click)="addComment(image.id)">
@@ -52,32 +62,18 @@
             Comments <span class="badge badge-light">{{image.comments.length - 1}}</span>
           </button> -->
           <div class="row align-items-center">
-          <span class="ml-2">
-            {{image.comments.length - 1}}
-          </span>
-          <span class="material-icons">
-            chat
-          </span>
-          <span class="ml-2 mr-2">
-            Recent:
-          </span>
-          <span class="badge badge-pill badge-success p-1">"{{image.comments[image.comments.length-1].name}} - {{image.comments[image.comments.length-1].comment}}"</span>
-        </div>
-        </div>
-
-        <!-- <div class="col w-100" *ngIf="(image.comments.length - 1) > 0" align="left">
-          <div class="row">
-            Click to view {{image.comments.length - 1}} comment(s)
-          </div>
-          <div class="row">
-            Last comment: "{{image.comments[image.comments.length-1].name}} - {{image.comments[image.comments.length-1].comment}}"
+            <span class="ml-2">
+              {{image.comments.length - 1}}
+            </span>
+            <span class="material-icons">
+              chat
+            </span>
+            <span class="ml-2 mr-2">
+              Recent:
+            </span>
+            <span class="badge badge-pill badge-success p-1">"{{image.comments[image.comments.length-1].name}} - {{image.comments[image.comments.length-1].comment}}"</span>
           </div>
         </div>
-        <div class="col w-100" *ngIf="(image.comments.length - 1) < 1" align="left">
-        Click photo to add a comment!
-        </div> -->
-
-
       </div>
     </div>
     <!-- Card -->
@@ -104,18 +100,38 @@
   <div class="modal-body">
     <div class="d-flex flex-row p-0">
       <div class="col w-50 pl-0" align="left">
-  <div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    {{tempCollection}}
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" (click)="collectionSelected(collection.collectionName)" *ngFor="let collection of collections">{{collection.collectionName}}</a>
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{tempCollection}}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" (click)="collectionSelected(collection.collectionName)" *ngFor="let collection of collections">{{collection.collectionName}}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col w-50 pr-0" align="right">
+        <button type="button" class="btn btn-success btn-sm" (click)="addCollection(); modal.dismiss('Added Collection')">Add to Collection</button>
+      </div>
+    </div>
   </div>
+</ng-template>
+
+<!-- Add People -->
+<ng-template #people let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="modal-basic-title">Tag Someone in this Photo</h2>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      X
+    </button>
   </div>
+  <div class="modal-body">
+    <div class="d-flex flex-row p-0">
+      <div class="col w-75 pl-0" align="left">
+          <input type="text" class="form-control" #personName placeholder="Enter Name">
+      </div>
+      <div class="col w-25 pr-0" align="right">
+        <button type="button" class="btn btn-success btn-sm" (click)="tagPerson(personName); modal.dismiss('Added Person')">Tag Person</button>
+      </div>
+    </div>
   </div>
-  <div class="col w-50 pr-0" align="right">
-  <button type="button" class="btn btn-success btn-sm" (click)="addCollection(); modal.dismiss('Added Collection')">Add to Collection</button>
-</div>
-</div>
-</div>
 </ng-template>

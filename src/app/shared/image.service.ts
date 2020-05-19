@@ -77,6 +77,27 @@ export class ImageService {
       }
       onComplete(colArray);
     });
+  }
+
+  addPerson(imageId, person, onComplete){
+    var personArray = [];
+    var personExists = false;
+
+    this.firestore.collection('images').doc(imageId).get().subscribe(data => {
+      if(data.data().people==null){
+        personArray[0] = person;
+      } else {
+        personArray = data.data().people;
+        personArray.push(person);
+      }
+
+      this.firestore.collection('images').doc(imageId).update({
+        people: personArray
+      });
+
+      onComplete(personArray);
+
+    });
 
   }
 
