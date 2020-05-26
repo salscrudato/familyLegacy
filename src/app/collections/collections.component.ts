@@ -14,8 +14,8 @@ export class CollectionsComponent implements OnInit {
   selectedCollection = 'Select a Collection';
   defImage = "/assets/loading.gif"
 
-  constructor(private service:ImageService,
-  private router:Router) { }
+  constructor(private service: ImageService,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -29,7 +29,7 @@ export class CollectionsComponent implements OnInit {
 
   }
 
-  setCollection(col){
+  setCollection(col) {
     this.selectedCollection = col.collectionName;
     //Move this to separate function and unsubscribe
     this.service.getImagesByCollection(col).subscribe(data => {
@@ -37,16 +37,34 @@ export class CollectionsComponent implements OnInit {
     });
   }
 
-  updateImageList(data){
+  updateImageList(data) {
+    var unsortedImages = []
     this.images = [];
     data.forEach(element => {
-      let tmpItem:any = element.payload.doc.data();
+      let tmpItem: any = element.payload.doc.data();
       tmpItem.id = element.payload.doc.id;
-      this.images.push(tmpItem);
+      // this.images.push(tmpItem);
+      unsortedImages.push(tmpItem);
     });
+
+    var tmpImage: any;
+    // const n = this.images.length
+    const n = unsortedImages.length
+    if (n > 1) {
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+          if (unsortedImages[j].uploadedTime < unsortedImages[j + 1].uploadedTime) {
+            tmpImage = unsortedImages[j];
+            unsortedImages[j] = unsortedImages[j + 1];
+            unsortedImages[j + 1] = tmpImage;
+          }
+        }
+      }
+    }
+    this.images = unsortedImages;
   }
 
-  addComment(imageKey){
+  addComment(imageKey) {
     this.service.setSelectedImage(imageKey);
     this.router.navigate(['comments']);
   }
